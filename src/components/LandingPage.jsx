@@ -1,8 +1,10 @@
 import React from 'react';
 import { Shield, Lock, Clock, Check, ChevronRight, Database, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+    const navigate = useNavigate();
     return (
         <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
             <nav className="bg-white shadow-sm fixed w-full z-10">
@@ -16,7 +18,10 @@ const LandingPage = () => {
                             <a href="#features" className="text-gray-700 hover:text-blue-600">Features</a>
                             <a href="#technology" className="text-gray-700 hover:text-blue-600">Technology</a>
                             <a href="#workflow" className="text-gray-700 hover:text-blue-600">How it Works</a>
-                            <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                            <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                                onClick={() => navigate("/user")}
+                            >
+                                
                                 Get Started
                             </button>
                         </div>
