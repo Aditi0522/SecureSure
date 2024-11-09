@@ -13,6 +13,7 @@ import {
 import { Alert, AlertDescription } from '../elements/Alert';
 import contractABI from '../config/abi.json';
 import { contractAddress } from '../config/contractAddress';
+import Navbar from './Navbar';
 
 const formatAddress = (address) => {
   return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
@@ -213,7 +214,9 @@ const HospitalDashboard = ({ userAddress }) => {
   }, [contract, effectiveAddress]);
 
   return (
-    <div className="max-w-7xl mx-auto p-4 space-y-6">
+    <>
+    <Navbar />
+    <div className="max-w-7xl mx-auto p-4 space-y-6 pt-20">
       {/* Header with Refresh Button */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Hospital Dashboard</h2>
@@ -371,6 +374,7 @@ const HospitalDashboard = ({ userAddress }) => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

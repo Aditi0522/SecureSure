@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { contractAddress } from '../config/contractAddress';
 import abi from '../config/abi.json';
+import Navbar from './Navbar';
 
 const CompanyDashboard = () => {
   const [contract, setContract] = useState(null);
@@ -180,7 +181,9 @@ const CompanyDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <>
+    <Navbar />
+    <div className="min-h-screen bg-gray-50 p-8 pt-20">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
           <div className="flex justify-between items-center mb-6">
@@ -267,6 +270,7 @@ const CompanyDashboard = () => {
         </div>
       )}
     </div>
+  </>
   );
 };
 
