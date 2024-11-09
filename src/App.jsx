@@ -5,6 +5,8 @@ import HospitalDashboard from './components/HospitalDashboard';
 import CompanyDashboard from './components/CompanyDasboard';
 import UserDashboard from './components/UserDashboard';
 import ClaimSubmit from './components/ClaimSubmit';
+import DocumentUpload from './components/DocumnetUpload';
+import IPFSRecordsPage from './components/IPFSRecordsPage';
 
 const App = () => (
     <Router>
@@ -15,6 +17,8 @@ const App = () => (
             <Route path='/company' element={<CompanyDashboard />} />
             <Route path='/user' element={<UserDashboard />} />
             <Route path='/claim' element={<ClaimSubmit />} />
+            <Route path='/upload' element={<DocumentUpload />} />
+            <Route path='/record' element={<IPFSRecordsPage />} />
         </Routes>
     </Router>
 );

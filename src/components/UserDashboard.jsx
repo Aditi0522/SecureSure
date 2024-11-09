@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "../elements/Card";
 import axios from "axios";
 import { AlertCircle, Upload, CheckCircle } from "lucide-react";
 import Navbar from "./Navbar";
+import Chatbot from '../components/Chatbot';
 
 const UserDashboard = () => {
   const navigate = useNavigate();
@@ -125,7 +126,14 @@ const UserDashboard = () => {
             pinata_secret_api_key: PINATA_SECRET_KEY,
           },
         }
+        
       );
+        // Store the form submission data
+        const submissionData = {
+            hash: response.data.IpfsHash,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('formSubmission', JSON.stringify(submissionData));
 
       setNotification({
         type: "success",
@@ -517,7 +525,7 @@ return (
                             <button
                                     type="button"
                                     className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
-                                    onClick={() => navigate("/claim")}
+                                    onClick={() => navigate("/upload")}
                             >
                                     Next
                             </button>
@@ -526,6 +534,7 @@ return (
             </Card>
         </div>
     </div>
+    <Chatbot />
     </>
 );
 };

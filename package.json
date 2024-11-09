@@ -16,12 +16,18 @@
     "@mui/material": "^6.1.6",
     "@web3-react/core": "^8.2.3",
     "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "ethers": "^6.13.4",
+    "express": "^4.21.1",
+    "form-data": "^4.0.1",
     "framer-motion": "^11.11.11",
     "lucide-react": "^0.456.0",
+    "multer": "^1.4.5-lts.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",
+    "socket.io-client": "^4.8.1",
     "web3": "^4.15.0"
   },
   "devDependencies": {
@@ -38,5 +44,10 @@
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14",
     "vite": "^5.4.10"
-  }
+  },
+  "description": "Decentralized Smart Insurance Claim Processing",
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
