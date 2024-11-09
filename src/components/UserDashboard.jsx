@@ -96,6 +96,19 @@ const UserDashboard = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Get environment variables based on the build tool being used
+    const PINATA_API_KEY = import.meta.env.VITE_PINATA_API_KEY || process.env.REACT_APP_PINATA_API_KEY;
+    const PINATA_SECRET_KEY = import.meta.env.VITE_PINATA_SECRET_KEY || process.env.REACT_APP_PINATA_SECRET_KEY;
+
+    if (!PINATA_API_KEY || !PINATA_SECRET_KEY) {
+      setNotification({
+        type: "error",
+        message: "Missing Pinata API credentials. Please check your environment variables.",
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
         "https://api.pinata.cloud/pinning/pinJSONToIPFS",
@@ -105,8 +118,8 @@ const UserDashboard = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            pinata_api_key: process.env.REACT_APP_PINATA_API_KEY,
-            pinata_secret_api_key: process.env.REACT_APP_PINATA_SECRET_KEY,
+            pinata_api_key: PINATA_API_KEY,
+            pinata_secret_api_key: PINATA_SECRET_KEY,
           },
         }
       );
