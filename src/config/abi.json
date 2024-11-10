@@ -3,6 +3,55 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "_aiOracle",
+				"type": "address"
+			}
+		],
+		"name": "addAuthorizedAiOracle",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_company",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "addAuthorizedCompany",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_hospital",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "addAuthorizedHospital",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "_initialOwner",
 				"type": "address"
 			},
@@ -78,6 +127,19 @@
 		],
 		"name": "AiVerificationFailed",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "blacklistUser",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -281,6 +343,13 @@
 		"type": "event"
 	},
 	{
+		"inputs": [],
+		"name": "emergencyWithdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -338,6 +407,13 @@
 		"type": "event"
 	},
 	{
+		"inputs": [],
+		"name": "pauseContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -349,6 +425,84 @@
 		],
 		"name": "Paused",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_claimId",
+				"type": "uint256"
+			}
+		],
+		"name": "payClaimToUser",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_claimAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_ipfsHash",
+				"type": "string"
+			},
+			{
+				"internalType": "enum InsuranceClaims.ClaimType",
+				"name": "_claimType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "address",
+				"name": "_hospital",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_company",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_aiOracle",
+				"type": "address"
+			}
+		],
+		"name": "submitClaim",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "unpauseContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -379,12 +533,22 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "_aiOracle",
-				"type": "address"
+				"internalType": "uint256",
+				"name": "_claimId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_confidenceScore",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_aiAnalysisHash",
+				"type": "string"
 			}
 		],
-		"name": "addAuthorizedAiOracle",
+		"name": "verifyClaimByAi",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -392,17 +556,12 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "_company",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
+				"internalType": "uint256",
+				"name": "_claimId",
+				"type": "uint256"
 			}
 		],
-		"name": "addAuthorizedCompany",
+		"name": "verifyClaimByCompany",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -410,20 +569,19 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "_hospital",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
+				"internalType": "uint256",
+				"name": "_claimId",
+				"type": "uint256"
 			}
 		],
-		"name": "addAuthorizedHospital",
+		"name": "verifyClaimByHospital",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
 	},
 	{
 		"inputs": [
@@ -477,38 +635,6 @@
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			}
-		],
-		"name": "blacklistUser",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "enum InsuranceClaims.ClaimType",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"name": "claimTypeLimits",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -621,6 +747,25 @@
 	{
 		"inputs": [
 			{
+				"internalType": "enum InsuranceClaims.ClaimType",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"name": "claimTypeLimits",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
@@ -666,10 +811,22 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "emergencyWithdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_ether",
+				"type": "uint256"
+			}
+		],
+		"name": "etherToWei",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
 		"type": "function"
 	},
 	{
@@ -747,13 +904,6 @@
 	},
 	{
 		"inputs": [],
-		"name": "pauseContract",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "paused",
 		"outputs": [
 			{
@@ -763,59 +913,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_claimId",
-				"type": "uint256"
-			}
-		],
-		"name": "payClaimToUser",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_claimAmount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_ipfsHash",
-				"type": "string"
-			},
-			{
-				"internalType": "enum InsuranceClaims.ClaimType",
-				"name": "_claimType",
-				"type": "uint8"
-			},
-			{
-				"internalType": "address",
-				"name": "_hospital",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_aiOracle",
-				"type": "address"
-			}
-		],
-		"name": "submitClaim",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -829,26 +926,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "unpauseContract",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -902,53 +979,19 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_claimId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_confidenceScore",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_aiAnalysisHash",
-				"type": "string"
-			}
-		],
-		"name": "verifyClaimByAi",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_claimId",
+				"name": "_wei",
 				"type": "uint256"
 			}
 		],
-		"name": "verifyClaimByCompany",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
+		"name": "weiToEther",
+		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "_claimId",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "verifyClaimByHospital",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "pure",
 		"type": "function"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "receive"
 	}
 ]
