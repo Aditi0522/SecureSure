@@ -1,91 +1,162 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Shield, Lock, Clock, Check, ChevronRight, Database, AlertCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
     const navigate = useNavigate();
+    const { scrollY } = useScroll();
+    const controls = useAnimation();
+
+    // Parallax effect for header
+    const headerY = useTransform(scrollY, [0, 500], [0, -150]);
+    const headerOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+    const fadeInUp = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 }
+    };
+
     return (
-        <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-            <nav className="bg-white shadow-sm fixed w-full z-10">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+            {/* Animated background shapes */}
+            <div className="fixed inset-0 -z-10 overflow-hidden">
+                <motion.div
+                    className="absolute -top-1/2 -right-1/2 w-96 h-96 rounded-full bg-blue-100 opacity-20 blur-3xl"
+                    animate={{
+                        x: [0, 100, 0],
+                        y: [0, -100, 0],
+                    }}
+                    transition={{
+                        duration: 20,
+                        repeat: Infinity,
+                    }}
+                />
+                <motion.div
+                    className="absolute -bottom-1/2 -left-1/2 w-96 h-96 rounded-full bg-purple-100 opacity-20 blur-3xl"
+                    animate={{
+                        x: [0, -100, 0],
+                        y: [0, 100, 0],
+                    }}
+                    transition={{
+                        duration: 15,
+                        repeat: Infinity,
+                    }}
+                />
+            </div>
+
+            {/* Navbar with glass effect */}
+            <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-lg">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16 items-center">
-                        <div className="flex items-center">
+                        <motion.div 
+                            className="flex items-center"
+                            whileHover={{ scale: 1.05 }}
+                        >
                             <Shield className="h-8 w-8 text-blue-600" />
-                            <span className="ml-2 text-xl font-bold text-gray-900">SecureSure</span>
-                        </div>
+                            <span className="ml-2 text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                SecureSure
+                            </span>
+                        </motion.div>
                         <div className="hidden md:flex items-center space-x-8">
-                            <a href="#features" className="text-gray-700 hover:text-blue-600">Features</a>
-                            <a href="#technology" className="text-gray-700 hover:text-blue-600">Technology</a>
-                            <a href="#workflow" className="text-gray-700 hover:text-blue-600">How it Works</a>
-                            <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                            <NavLink href="#features">Features</NavLink>
+                            <NavLink href="#technology">Technology</NavLink>
+                            <NavLink href="#workflow">How it Works</NavLink>
+                            <motion.button
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                                 onClick={() => navigate("/user")}
                             >
-                                
                                 Get Started
-                            </button>
+                            </motion.button>
                         </div>
                     </div>
                 </div>
             </nav>
 
-            <header className="relative overflow-hidden pt-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            {/* Hero section with parallax */}
+            <motion.header 
+                className="relative overflow-hidden pt-32 pb-20"
+                style={{ y: headerY }}
+            >
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         className="text-center"
-                        initial={{ opacity: 0, y: -50 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl">
-                            <span className="block">Decentralized Smart Insurance</span>
-                            <span className="block text-blue-600">Claim Processing</span>
+                        <h1 className="text-6xl md:text-7xl font-extrabold">
+                            <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                Decentralized Smart
+                            </span>
+                            <span className="block mt-2">
+                                Insurance Claims
+                            </span>
                         </h1>
-                        <p className="mt-5 max-w-md mx-auto text-xl text-gray-600 sm:text-2xl md:mt-8 md:max-w-3xl">
+                        <motion.p 
+                            className="mt-8 max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                        >
                             Leverage the power of Web3 and Generative AI for transparent, fraud-resistant insurance claims processing.
-                        </p>
-                        <div className="mt-8 flex justify-center">
-                            <motion.a
-                                href="#"
-                                className="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                        </motion.p>
+                        <motion.div 
+                            className="mt-10 flex flex-wrap justify-center gap-4"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.8 }}
+                        >
+                            <motion.button
+                                className="px-8 py-3 text-lg font-medium rounded-full text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg transition-all"
                                 whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 Get Started
-                            </motion.a>
-                            <motion.a
-                                href="#"
-                                className="ml-4 inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-md text-blue-600 bg-white border border-blue-600 hover:bg-blue-50"
+                            </motion.button>
+                            <motion.button
+                                className="px-8 py-3 text-lg font-medium rounded-full text-blue-600 border-2 border-blue-600 hover:bg-blue-50 transition-all"
                                 whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 Learn More
-                            </motion.a>
-                        </div>
+                            </motion.button>
+                        </motion.div>
                     </motion.div>
                 </div>
-            </header>
+            </motion.header>
 
-            <section id="features" className="py-16 bg-gray-50">
+            {/* Features section with cards */}
+            <section id="features" className="py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900">
+                    <motion.div
+                        className="text-center"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeInUp}
+                    >
+                        <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             Key Features
                         </h2>
-                        <p className="mt-4 text-lg text-gray-600">
+                        <p className="mt-4 text-xl text-gray-600">
                             Discover what makes SecureSure unique
                         </p>
-                    </div>
-                    <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                        <Feature
+                    </motion.div>
+                    <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                        <FeatureCard
                             icon={<Database className="h-8 w-8 text-blue-600" />}
                             title="Decentralized Storage"
                             description="Secure, transparent claim data storage using blockchain technology."
                         />
-                        <Feature
+                        <FeatureCard
                             icon={<Check className="h-8 w-8 text-blue-600" />}
                             title="Smart Contracts"
                             description="Automated disbursements with smart contract technology."
                         />
-                        <Feature
+                        <FeatureCard
                             icon={<AlertCircle className="h-8 w-8 text-blue-600" />}
                             title="AI-Powered Analysis"
                             description="Advanced fraud detection using pattern analysis."
@@ -94,96 +165,86 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            <section id="technology" className="py-16 bg-white">
+            {/* Technology section with floating cards */}
+            <section id="technology" className="py-20 relative">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900">
+                    <motion.div
+                        className="text-center"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeInUp}
+                    >
+                        <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             Built with Modern Technology
                         </h2>
-                        <p className="mt-4 text-lg text-gray-600">
+                        <p className="mt-4 text-xl text-gray-600">
                             Leveraging cutting-edge tools for optimal performance
                         </p>
-                    </div>
-                    <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
-                        <TechItem title="React" description="Frontend Development" />
-                        <TechItem title="Python" description="Backend & AI" />
-                        <TechItem title="Ethereum" description="Blockchain Layer" />
-                        <TechItem title="IPFS" description="Decentralized Storage" />
+                    </motion.div>
+                    <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
+                        <TechCard title="React" description="Frontend Development" />
+                        <TechCard title="Python" description="Backend & AI" />
+                        <TechCard title="Ethereum" description="Blockchain Layer" />
+                        <TechCard title="IPFS" description="Decentralized Storage" />
                     </div>
                 </div>
             </section>
 
-            <section id="workflow" className="py-16 bg-gray-50">
+            {/* Workflow section with connected steps */}
+            <section id="workflow" className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900">
+                    <motion.div
+                        className="text-center"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeInUp}
+                    >
+                        <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             How it Works
                         </h2>
-                        <p className="mt-4 text-lg text-gray-600">
+                        <p className="mt-4 text-xl text-gray-600">
                             A seamless process from start to finish
                         </p>
-                    </div>
-                    <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-4">
-                        <WorkflowStep
-                            number="1"
-                            title="Submit Claim"
-                            description="Submit your claim through our user-friendly interface."
-                        />
-                        <WorkflowStep
-                            number="2"
-                            title="AI Analysis"
-                            description="Our AI system analyzes the claim for validity."
-                        />
-                        <WorkflowStep
-                            number="3"
-                            title="Smart Contract"
-                            description="Automated verification and processing."
-                        />
-                        <WorkflowStep
-                            number="4"
-                            title="Payment"
-                            description="Quick and secure disbursement of approved claims."
-                        />
+                    </motion.div>
+                    <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-4 relative">
+                        <WorkflowCard number="1" title="Submit Claim" description="Submit your claim through our user-friendly interface." />
+                        <WorkflowCard number="2" title="AI Analysis" description="Our AI system analyzes the claim for validity." />
+                        <WorkflowCard number="3" title="Smart Contract" description="Automated verification and processing." />
+                        <WorkflowCard number="4" title="Payment" description="Quick and secure disbursement of approved claims." />
                     </div>
                 </div>
             </section>
 
-            <footer className="bg-gray-800">
+            {/* Footer with gradient background */}
+            <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
                 <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         <div className="col-span-2 md:col-span-1">
-                            <div className="flex items-center text-white">
+                            <motion.div 
+                                className="flex items-center"
+                                whileHover={{ scale: 1.05 }}
+                            >
                                 <Shield className="h-8 w-8" />
                                 <span className="ml-2 text-xl font-bold">SecureSure</span>
-                            </div>
+                            </motion.div>
                             <p className="mt-4 text-gray-400">
                                 Empowering secure and transparent insurance processing.
                             </p>
                         </div>
-                        <div>
-                            <h3 className="text-white font-semibold">Product</h3>
-                            <ul className="mt-4 space-y-2">
-                                <li><a href="#" className="text-gray-400 hover:text-white">Features</a></li>
-                                <li><a href="#" className="text-gray-400 hover:text-white">Security</a></li>
-                                <li><a href="#" className="text-gray-400 hover:text-white">Pricing</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="text-white font-semibold">Resources</h3>
-                            <ul className="mt-4 space-y-2">
-                                <li><a href="#" className="text-gray-400 hover:text-white">Documentation</a></li>
-                                <li><a href="#" className="text-gray-400 hover:text-white">API</a></li>
-                                <li><a href="#" className="text-gray-400 hover:text-white">Guides</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="text-white font-semibold">Company</h3>
-                            <ul className="mt-4 space-y-2">
-                                <li><a href="#" className="text-gray-400 hover:text-white">About</a></li>
-                                <li><a href="#" className="text-gray-400 hover:text-white">Blog</a></li>
-                                <li><a href="#" className="text-gray-400 hover:text-white">Contact</a></li>
-                            </ul>
-                        </div>
+                        <FooterLinks 
+                            title="Product" 
+                            links={['Features', 'Security', 'Pricing']} 
+                        />
+                        <FooterLinks 
+                            title="Resources" 
+                            links={['Documentation', 'API', 'Guides']} 
+                        />
+                        <FooterLinks 
+                            title="Company" 
+                            links={['About', 'Blog', 'Contact']} 
+                        />
                     </div>
                     <div className="mt-8 border-t border-gray-700 pt-8 text-center">
                         <p className="text-gray-500">&copy; 2023 SecureSure. All rights reserved.</p>
@@ -194,49 +255,92 @@ const LandingPage = () => {
     );
 };
 
-const Feature = ({ icon, title, description }) => {
-    return (
-        <motion.div
-            className="flex flex-col items-center text-center bg-white p-6 rounded-lg shadow hover:shadow-lg"
-            whileHover={{ y: -5 }}
-        >
-            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-blue-100">
+const NavLink = ({ href, children }) => (
+    <motion.a
+        href={href}
+        className="text-gray-700 hover:text-blue-600 transition-colors"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+    >
+        {children}
+    </motion.a>
+);
+
+const FeatureCard = ({ icon, title, description }) => (
+    <motion.div
+        className="relative p-6 bg-white rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        whileHover={{ y: -5 }}
+    >
+        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+            <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 shadow-lg">
                 {icon}
             </div>
-            <h3 className="mt-4 text-xl font-semibold text-gray-900">{title}</h3>
+        </div>
+        <div className="mt-16 text-center">
+            <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
             <p className="mt-2 text-gray-600">{description}</p>
-        </motion.div>
-    );
-};
+        </div>
+    </motion.div>
+);
 
-const TechItem = ({ title, description }) => {
-    return (
-        <motion.div
-            className="flex flex-col items-center p-6 bg-white rounded-lg shadow hover:shadow-lg"
-            whileHover={{ y: -5 }}
-        >
-            <div className="text-blue-600">
-                <i className="fas fa-code fa-2x"></i>
+const TechCard = ({ title, description }) => (
+    <motion.div
+        className="p-6 bg-white rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        whileHover={{
+            y: -5,
+            background: "linear-gradient(135deg, #EEF2FF 0%, #ffffff 100%)",
+        }}
+    >
+        <div className="text-center">
+            <div className="text-blue-600 text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {title}
             </div>
-            <h3 className="mt-4 text-xl font-semibold text-gray-900">{title}</h3>
-            <p className="mt-2 text-gray-600">{description}</p>
-        </motion.div>
-    );
-};
+            <p className="mt-4 text-gray-600">{description}</p>
+        </div>
+    </motion.div>
+);
 
-const WorkflowStep = ({ number, title, description }) => {
-    return (
-        <motion.div
-            className="relative flex flex-col items-center p-6 bg-white rounded-lg shadow hover:shadow-lg"
+const WorkflowCard = ({ number, title, description }) => (
+    <motion.div
+        className="relative p-6 bg-white rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport
+        ={{ once: true }}
             whileHover={{ y: -5 }}
-        >
-            <div className="flex items-center justify-center h-12 w-12 rounded-full bg-blue-600 text-white font-bold text-lg">
+            >
+            <div className="text-center">
+                <div className="text-6xl font-bold text-blue-600">
                 {number}
+                </div>
+                <h3 className="mt-4 text-xl font-semibold text-gray-900">
+                {title}
+                </h3>
+                <p className="mt-2 text-gray-600">
+                {description}
+                </p>
             </div>
-            <h3 className="mt-4 text-xl font-semibold text-gray-900">{title}</h3>
-            <p className="mt-2 text-gray-600 text-center">{description}</p>
-        </motion.div>
-    );
-};
+            </motion.div>
+        );
+        const FooterLinks = ({ title, links }) => (
+            <div>
+                <h4 className="text-lg font-semibold text-gray-200">{title}</h4>
+                <ul className="mt-4 space-y-2">
+                    {links.map((link, index) => (
+                        <li key={index}>
+                            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                                {link}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
 
-export default LandingPage;
+        export default LandingPage;
